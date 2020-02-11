@@ -1,5 +1,10 @@
 import React from 'react';
+import { SignIn } from './SignIn';
 
 export const Main = () => {
-  return <div>Its a react app</div>;
+  return (
+    <div>
+      <SignIn />
+    </div>
+  );
 };
