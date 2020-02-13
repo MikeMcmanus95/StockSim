@@ -17,7 +17,6 @@ const SignUp = props => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    console.log(`Submitting ${email}, ${name} and ${pass}`);
     props.signup(method, email, pass, name);
     resetEmail();
     resetName();
@@ -26,23 +25,25 @@ const SignUp = props => {
   };
 
   return (
-    <div className="form">
-      <form className="register-form" onSubmit={handleSubmit}>
-        <input type="text" placeholder="name" {...bindName} />
-        <input type="text" placeholder="email address" {...bindEmail} />
-        <input type="password" placeholder="password" {...bindPass} />
-        <input
-          type="password"
-          placeholder="re-enter password"
-          {...bindConfirm}
-        />
-        <button type="submit" disabled={buttonDisabled}>
-          create
-        </button>
-        <p className="message">
-          Already registered? <Link to="/signin">Sign In</Link>
-        </p>
-      </form>
+    <div className="form-wrapper">
+      <div className="form">
+        <form className="register-form" onSubmit={handleSubmit}>
+          <input type="text" placeholder="name" {...bindName} />
+          <input type="text" placeholder="email address" {...bindEmail} />
+          <input type="password" placeholder="password" {...bindPass} />
+          <input
+            type="password"
+            placeholder="re-enter password"
+            {...bindConfirm}
+          />
+          <p className="message">
+            Already registered? <Link to="/signin">Sign In</Link>
+          </p>
+          <button type="submit" disabled={buttonDisabled}>
+            create
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

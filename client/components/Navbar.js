@@ -13,10 +13,10 @@ const Navbar = ({ handleLogout, isLoggedIn, userId }) => {
               <a onClick={handleLogout}>Logout</a>
             </li>
             <li>
-              <Link to="/home">Portfolio</Link>
+              <Link to="/transactions">Transactions</Link>
             </li>
             <li>
-              <Link to="/transactions">Transactions</Link>
+              <Link to="/home">Portfolio</Link>
             </li>
           </>
         ) : (
