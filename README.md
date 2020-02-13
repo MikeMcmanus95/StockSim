@@ -2,4 +2,4 @@
 
 Submission for TTP assessment
 
-[img]https://i.imgur.com/7375uRE.png[/img]
+<img src="https://i.imgur.com/7375uRE.png" width="500" alt="Portfolio/>
