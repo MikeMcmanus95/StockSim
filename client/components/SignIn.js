@@ -19,6 +19,7 @@ const SignIn = props => {
   return (
     <div className="form-wrapper">
       <div className="form">
+        <h1>Sign In</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <input type="text" placeholder="email" {...bindEmail} required />
           <input

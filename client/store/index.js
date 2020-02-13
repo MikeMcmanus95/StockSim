@@ -3,9 +3,11 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer from './user';
+import stocksReducer from './stocks';
 
 const reducer = combineReducers({
   user: userReducer,
+  stocks: stocksReducer,
 });
 
 const middleware = composeWithDevTools(

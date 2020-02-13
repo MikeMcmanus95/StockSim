@@ -8,7 +8,7 @@ export const About = () => {
         This is a free stock buying simulator. Built as an entry for the NYC
         Tech Talent Pipeline assessment.
       </p>
-      <small>Built with 💕 by Michael Mcmanus</small>
+      <small>Built with ❤️ by Michael Mcmanus</small>
     </div>
   );
 };

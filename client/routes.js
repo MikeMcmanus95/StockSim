@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { withRouter, Route } from 'react-router-dom';
 import { About } from './components/About';
-import { Portfolio } from './components/Portfolio';
+import Portfolio from './components/Portfolio';
 import { Transactions } from './components/Transactions';
 import { connect } from 'react-redux';
 import { me } from './store/user';

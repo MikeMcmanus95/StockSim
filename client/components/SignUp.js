@@ -27,6 +27,7 @@ const SignUp = props => {
   return (
     <div className="form-wrapper">
       <div className="form">
+        <h1>Sign Up</h1>
         <form className="register-form" onSubmit={handleSubmit}>
           <input type="text" placeholder="name" {...bindName} />
           <input type="text" placeholder="email address" {...bindEmail} />
