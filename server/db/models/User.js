@@ -11,6 +11,9 @@ const User = db.define('user', {
   name: {
     type: Sequelize.STRING,
   },
+  cashBal: {
+    type: Sequelize.INTEGER,
+  },
   password: {
     type: Sequelize.STRING,
     // Making .password act like a func hides it when serializing to JSON.

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useInput } from '../hooks/useInput';
 
 export const SignIn = props => {
@@ -19,7 +20,7 @@ export const SignIn = props => {
         <input type="password" placeholder="password" {...bindPass} required />
         <button type="submit">login</button>
         <p className="message">
-          Not registered? <a href="#">Create an account</a>
+          Not registered? <Link to="/signup">Create an account</Link>
         </p>
       </form>
     </div>
