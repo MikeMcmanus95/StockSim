@@ -1,20 +1,27 @@
 import React, { useEffect } from 'react';
-import { withRouter, Route, Switch } from 'react-router-dom';
-import { Main } from './components/Main';
+import { withRouter, Route } from 'react-router-dom';
+import { About } from './components/About';
+import { Portfolio } from './components/Portfolio';
+import { Transactions } from './components/Transactions';
 import { connect } from 'react-redux';
 import { me } from './store/user';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
-const Routes = props => {
-  useEffect(() => props.loadInitialData());
-  const isLoggedIn = props.isLoggedIn;
-  console.log('Am i logged in yet?', isLoggedIn);
+const Routes = ({ isLoggedIn, loadInitialData }) => {
+  useEffect(() => loadInitialData());
+
   return (
     <>
-      <Route exact path="/" component={Main} />
+      <Route exact path="/" component={About} />
       <Route path="/signin" component={SignIn} />
       <Route path="/signup" component={SignUp} />
+      {isLoggedIn && (
+        <>
+          <Route path="/home" component={Portfolio} />
+          <Route path="/transactions" component={Transactions} />
+        </>
+      )}
     </>
   );
 };

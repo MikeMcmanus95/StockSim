@@ -39,6 +39,11 @@
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
+  visibility: visible;
+}
+
+.form button:disabled {
+  visibility: hidden;
 }
 .form button:hover,
 .form button:active,
@@ -87,6 +92,40 @@
 }
 .container .info span .fa {
   color: #ef3b3a;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  background-color: #333;
+  overflow: hidden;
+  width: 100%;
+  z-index: 25;
+}
+
+li {
+  text-align: center;
+  display: inline-flex;
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+  color: white;
+}
+
+.active {
+  background-color: #4caf50;
+  color: white;
 }
 
 body {

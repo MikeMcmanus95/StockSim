@@ -1,18 +1,20 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Main } from './components/Main';
+import { About } from './components/About';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import store from './store';
 import history from './history';
 import Routes from './routes';
+import Navbar from './components/Navbar';
 // import {Provider} from 'react-redux'
 
 render(
   <Provider store={store}>
-    <BrowserRouter>
+    <Router history={history}>
+      <Navbar />
       <Routes />
-    </BrowserRouter>
+    </Router>
   </Provider>,
   document.getElementById('app')
 );

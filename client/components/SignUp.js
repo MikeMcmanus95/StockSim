@@ -11,8 +11,9 @@ const SignUp = props => {
   const { value: confirm, bind: bindConfirm, reset: resetConfirm } = useInput(
     ''
   );
+
   const method = 'signup';
-  const buttonDisabled = true;
+  const buttonDisabled = confirm !== pass || confirm === '';
 
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -23,6 +24,7 @@ const SignUp = props => {
     resetPass();
     resetConfirm();
   };
+
   return (
     <div className="form">
       <form className="register-form" onSubmit={handleSubmit}>
@@ -34,12 +36,9 @@ const SignUp = props => {
           placeholder="re-enter password"
           {...bindConfirm}
         />
-        {confirm === pass ? (
-          <small>passwords match</small>
-        ) : (
-          <small>passwords must match</small>
-        )}
-        <button type="submit">create</button>
+        <button type="submit" disabled={buttonDisabled}>
+          create
+        </button>
         <p className="message">
           Already registered? <Link to="/signin">Sign In</Link>
         </p>
