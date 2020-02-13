@@ -28,10 +28,10 @@ export const me = () => async dispatch => {
   }
 };
 
-export const auth = (email, name, password) => async dispatch => {
+export const auth = (method, email, password, name) => async dispatch => {
   let res;
   try {
-    res = await axios.post(`/auth/signup`, { email, name, password });
+    res = await axios.post(`/auth/${method}`, { email, name, password });
   } catch (error) {
     console.error('Failed to post, ', error);
   }

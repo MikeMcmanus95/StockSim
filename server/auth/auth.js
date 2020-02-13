@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.put('/login', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   try {
     const currentUser = await User.findOne({
       where: { email: req.body.email },

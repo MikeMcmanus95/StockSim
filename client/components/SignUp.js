@@ -11,11 +11,13 @@ const SignUp = props => {
   const { value: confirm, bind: bindConfirm, reset: resetConfirm } = useInput(
     ''
   );
+  const method = 'signup';
+  const buttonDisabled = true;
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    alert(`Submitting ${email}, ${name} and ${pass}`);
-    props.signup(email, name, pass);
+    console.log(`Submitting ${email}, ${name} and ${pass}`);
+    props.signup(method, email, pass, name);
     resetEmail();
     resetName();
     resetPass();
@@ -32,7 +34,11 @@ const SignUp = props => {
           placeholder="re-enter password"
           {...bindConfirm}
         />
-
+        {confirm === pass ? (
+          <small>passwords match</small>
+        ) : (
+          <small>passwords must match</small>
+        )}
         <button type="submit">create</button>
         <p className="message">
           Already registered? <Link to="/signin">Sign In</Link>
@@ -44,7 +50,8 @@ const SignUp = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signup: (email, name, password) => dispatch(auth(email, name, password)),
+    signup: (method, email, password, name) =>
+      dispatch(auth(method, email, password, name)),
   };
 };
 

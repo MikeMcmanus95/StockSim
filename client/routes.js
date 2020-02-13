@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 import { Main } from './components/Main';
-import { SignIn } from './components/SignIn';
+import { connect } from 'react-redux';
+import { me } from './store/user';
+import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
 const Routes = props => {
+  useEffect(() => props.loadInitialData());
+  const isLoggedIn = props.isLoggedIn;
+  console.log('Am i logged in yet?', isLoggedIn);
   return (
     <>
       <Route exact path="/" component={Main} />
@@ -14,4 +19,14 @@ const Routes = props => {
   );
 };
 
-export default Routes;
+const mapStateToProps = state => ({
+  isLoggedIn: !!state.user.id,
+});
+
+const mapDispatchToProps = dispatch => ({
+  loadInitialData() {
+    dispatch(me());
+  },
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Routes));
