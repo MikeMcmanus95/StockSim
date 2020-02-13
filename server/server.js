@@ -45,6 +45,7 @@ const createApp = () => {
   app.use(passport.session());
 
   app.use('/auth', require('./auth/auth'));
+  app.use('/api', require('./api/index'));
 
   app.use(express.static(path.join(__dirname, '../public')));
 

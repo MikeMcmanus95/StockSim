@@ -14,6 +14,9 @@ const User = db.define('user', {
   cashBal: {
     type: Sequelize.INTEGER,
     defaultValue: 5000,
+    validate: {
+      min: 0,
+    },
   },
   password: {
     type: Sequelize.STRING,

@@ -1,31 +1,20 @@
 import React from 'react';
 import { PortfolioTable } from './PortfolioTable';
-import { Purchase } from './Purchase';
+import Purchase from './Purchase';
 import { connect } from 'react-redux';
-import { getStocksThunk } from '../store/stocks';
 
-const Portfolio = ({ user, getStocks }) => {
-  const handleClick = evt => {
-    evt.preventDefault();
-    getStocks('AAPL');
-  };
-
+const Portfolio = ({ user, stocks }) => {
   return (
     <div className="portfolio">
-      <PortfolioTable user={user} />
-      <Purchase user={user} handleClick={handleClick} />
+      <PortfolioTable user={user} stocks={stocks} />
+      <Purchase user={user} />
     </div>
   );
 };
 
 const mapStateToProps = state => ({
   user: state.user,
+  stocks: state.stocks,
 });
 
-const mapDispatchToProps = dispatch => ({
-  getStocks(name) {
-    dispatch(getStocksThunk(name));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);
+export default connect(mapStateToProps, null)(Portfolio);

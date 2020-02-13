@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../db/models');
+const { User, Portfolio } = require('../db/models');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -35,6 +35,8 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
+    const portfolio = await Portfolio.create({ totalValue: 0 });
+    await portfolio.setUser(newUser.id);
     req.login(newUser, err => {
       if (err) next(err);
       else res.json(newUser);
@@ -56,23 +58,6 @@ router.post('/logout', (req, res, next) => {
 
 router.get('/me', (req, res, next) => {
   res.json(req.user);
-});
-
-router.get('/:id', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    res.json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put('/:id', (req, res, next) => {
-  res.send('Update user by id here');
-});
-
-router.delete('/:id', (req, res, next) => {
-  res.send('Delete user by id here');
 });
 
 module.exports = router;
