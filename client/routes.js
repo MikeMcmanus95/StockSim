@@ -9,7 +9,7 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
 const Routes = ({ isLoggedIn, loadInitialData }) => {
-  useEffect(() => loadInitialData());
+  useEffect(() => loadInitialData(), []);
 
   return (
     <>

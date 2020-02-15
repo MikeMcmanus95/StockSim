@@ -14,6 +14,7 @@ Portfolio.belongsToMany(Stock, { through: PortfolioStock });
 module.exports = {
   User,
   Portfolio,
+  PortfolioStock,
   Stock,
   db,
 };

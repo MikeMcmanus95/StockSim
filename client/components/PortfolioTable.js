@@ -6,12 +6,17 @@ export const PortfolioTable = ({ stocks }) => {
       <h1>Portfolio ($7270)</h1>
       <table className="stocks-table">
         <tbody>
-          {stocks.map(stock => (
+          {stocks.stocksArr.map(stock => (
             <tr key={stock.symbol}>
               <td>
-                {stock.symbol} - {stock.quantity} Shares
+                {stock.symbol} -{' '}
+                {stock.quantity || stock.portfolioStock.quantity} Shares
               </td>
-              <td>${stock.totalValue}</td>
+              <td>
+                $
+                {stock.totalValue ||
+                  stock.price * stock.portfolioStock.quantity}
+              </td>
             </tr>
           ))}
         </tbody>

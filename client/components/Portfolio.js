@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getStocksThunk } from '../store/stocks';
 import { PortfolioTable } from './PortfolioTable';
 import Purchase from './Purchase';
-import { connect } from 'react-redux';
 
-const Portfolio = ({ user, stocks }) => {
+const Portfolio = ({ user, stocks, getStocks }) => {
+  useEffect(() => getStocks(user.id), []);
+
   return (
     <div className="portfolio">
       <PortfolioTable user={user} stocks={stocks} />
-      <Purchase user={user} />
+      <Purchase user={user} errorMsg={stocks.errorMsg} />
     </div>
   );
 };
@@ -17,4 +20,10 @@ const mapStateToProps = state => ({
   stocks: state.stocks,
 });
 
-export default connect(mapStateToProps, null)(Portfolio);
+const mapDispatchToProps = dispatch => ({
+  getStocks(userId) {
+    dispatch(getStocksThunk(userId));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);

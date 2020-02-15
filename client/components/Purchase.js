@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useInput } from '../hooks/useInput';
 import { addStockThunk } from '../store/stocks';
 
-const Purchase = ({ user, addStock }) => {
+const Purchase = ({ user, addStock, errorMsg }) => {
   const { value: ticker, bind: bindTicker, reset: resetTicker } = useInput('');
   const { value: qty, bind: bindQty, reset: resetQty } = useInput('');
 
@@ -24,6 +24,7 @@ const Purchase = ({ user, addStock }) => {
           <button type="submit">Purchase</button>
         </form>
       </div>
+      {errorMsg ? <p className="message">{errorMsg}</p> : null}
     </div>
   );
 };
