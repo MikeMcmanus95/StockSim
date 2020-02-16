@@ -19,9 +19,9 @@ const defaultState = { stocksArr: [], errorMsg: '' };
 const addStock = stock => ({ type: ADD_STOCK, stock });
 const getStocks = stocks => ({ type: GET_STOCKS, stocks });
 
-const stockError = () => ({
+const stockError = message => ({
   type: STOCK_ERROR,
-  errorMsg: 'Error purchasing stock. Probably an invalid ticker.',
+  errorMsg: message,
 });
 
 /**
@@ -49,12 +49,13 @@ export const addStockThunk = (name, qty) => async dispatch => {
       price: stock.latestPrice,
       change: stock.change,
       quantity: stock.quantity,
+      totalValue: stock.totalValue,
     });
 
     // Add that stock to our front end state
     dispatch(addStock(stock));
   } catch (error) {
-    dispatch(stockError());
+    dispatch(stockError('Error purchasing stock. Check your ticker.'));
     console.error(error);
   }
 };
@@ -62,9 +63,9 @@ export const addStockThunk = (name, qty) => async dispatch => {
 export const getStocksThunk = userId => async dispatch => {
   try {
     const { data } = await axios.get(`/api/stocks/${userId}`);
-    dispatch(getStocks(data[0].stocks));
+    dispatch(getStocks(data));
   } catch (error) {
-    dispatch(stockError());
+    dispatch(stockError('Error retriving stocks.'));
     console.error(error);
   }
 };
@@ -75,17 +76,16 @@ export const getStocksThunk = userId => async dispatch => {
 export default function(state = defaultState, action) {
   switch (action.type) {
     case ADD_STOCK:
-      if (state.stocksArr.includes(action.stock)) {
-        const newArr = state.stocksArr.map(stock => {
-          if (stock.symbol === action.stock.symbol) {
-            stock.quantity += action.quantity;
-          }
-          return stock;
-        });
-        return { stocksArr: newArr };
-      } else {
-        return { stocksArr: [...state.stocksArr, action.stock] };
+      const found = state.stocksArr.find(
+        stock => stock.symbol === action.stock.symbol
+      );
+      if (found) {
+        action.stock.quantity += found.portfolioStock.quantity;
       }
+      const newArr = state.stocksArr.filter(
+        stock => stock.symbol !== action.stock.symbol
+      );
+      return { stocksArr: [...newArr, action.stock] };
     case GET_STOCKS:
       return { stocksArr: action.stocks };
     case STOCK_ERROR:

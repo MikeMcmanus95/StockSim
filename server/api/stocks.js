@@ -47,7 +47,7 @@ router.post('/', async (req, res, next) => {
 // GET STOCKS FOR USER
 router.get('/:id', async (req, res, next) => {
   try {
-    const stocks = await Portfolio.findAll({
+    let portfolio = await Portfolio.findAll({
       where: { userId: req.params.id },
       include: [
         {
@@ -55,7 +55,15 @@ router.get('/:id', async (req, res, next) => {
         },
       ],
     });
-    res.json(stocks);
+
+    // Structuring the data to match our front end
+    portfolio = portfolio[0].stocks.map(stock => {
+      stock.quantity = stock.portfolioStock.quantity;
+      stock.id = stock.portfolioStock.stockId;
+      stock.portfolioId = stock.portfolioStock.portfolioId;
+      return stock;
+    });
+    res.json(portfolio);
   } catch (error) {
     next(error);
   }
