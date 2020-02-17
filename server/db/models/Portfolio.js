@@ -3,7 +3,7 @@ const db = require('../db');
 
 const Portfolio = db.define('portfolio', {
   totalValue: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
   },
 });
 

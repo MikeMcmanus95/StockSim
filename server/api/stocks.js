@@ -21,12 +21,14 @@ router.post('/', async (req, res, next) => {
       where: { userId: req.user.id },
     });
 
+    // Checking if stock exists, if so, update the price to latest
     if (stock) {
       stock = await stock.update({ price, change });
     } else {
       stock = await Stock.create(req.body);
     }
 
+    // Finding or adding stock to user portfolio
     const [portfolioStock, wasCreated] = await PortfolioStock.findOrCreate({
       where: {
         portfolioId: portfolio.id,
@@ -34,10 +36,17 @@ router.post('/', async (req, res, next) => {
       },
     });
 
+    // If stock exists in portfolio, update quantity.
     if (!wasCreated) {
       portfolioStock.quantity += quantity;
-      await portfolioStock.save();
     }
+    portfolioStock.totalValue = stock.price * portfolioStock.quantity;
+    await portfolioStock.save();
+
+    // Lastly, update the total value of all stocks in user portfolio
+    portfolio.totalValue += stock.price;
+    await portfolio.save();
+
     res.json(stock);
   } catch (error) {
     next(error);
@@ -55,15 +64,21 @@ router.get('/:id', async (req, res, next) => {
         },
       ],
     });
-
+    console.log(portfolio);
     // Structuring the data to match our front end
-    portfolio = portfolio[0].stocks.map(stock => {
-      stock.quantity = stock.portfolioStock.quantity;
-      stock.id = stock.portfolioStock.stockId;
-      stock.portfolioId = stock.portfolioStock.portfolioId;
+    stocksArr = portfolio[0].stocks.map(stock => {
+      stock.dataValues.quantity = stock.portfolioStock.quantity;
+      stock.dataValues.id = stock.portfolioStock.stockId;
+      stock.dataValues.portfolioId = stock.portfolioStock.portfolioId;
+      stock.dataValues.totalValue =
+        stock.dataValues.price * stock.portfolioStock.quantity;
       return stock;
     });
-    res.json(portfolio);
+    const stocks = {
+      stocksArr: stocksArr,
+      totalValue: portfolio[0].totalValue,
+    };
+    res.json(stocks);
   } catch (error) {
     next(error);
   }

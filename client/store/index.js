@@ -7,7 +7,7 @@ import stocksReducer from './stocks';
 
 const reducer = combineReducers({
   user: userReducer,
-  stocks: stocksReducer,
+  portfolio: stocksReducer,
 });
 
 const middleware = composeWithDevTools(

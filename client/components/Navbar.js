@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../store/user';
 
-const Navbar = ({ handleLogout, isLoggedIn, userId }) => {
+const Navbar = ({ handleLogout, isLoggedIn }) => {
   return (
     <>
       <ul>

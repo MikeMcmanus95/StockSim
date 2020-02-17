@@ -9,6 +9,13 @@ const PortfolioStock = db.define('portfolioStock', {
     },
     defaultValue: 1,
   },
+  totalValue: {
+    type: Sequelize.FLOAT,
+    validate: {
+      min: 0,
+    },
+    defaultValue: 1,
+  },
 });
 
 module.exports = PortfolioStock;
