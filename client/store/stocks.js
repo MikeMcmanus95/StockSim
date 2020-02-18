@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_KEY } from '../../secrets';
 import { addTransactionThunk } from './transactions';
+import { purchaseThunk } from './user';
 
 /**
  * ACTION TYPES
@@ -38,6 +39,7 @@ export const addStockThunk = (name, qty) => async dispatch => {
       symbol: quoteData.symbol,
       latestPrice: quoteData.latestPrice,
       change: quoteData.change,
+      changePercent: String(quoteData.changePercent),
       open: quoteData.open,
       quantity: qty,
       totalValue: quoteData.latestPrice * qty,
@@ -48,13 +50,19 @@ export const addStockThunk = (name, qty) => async dispatch => {
       symbol: stock.symbol,
       price: stock.latestPrice,
       change: stock.change,
+      changePercent: stock.changePercent,
       quantity: stock.quantity,
       totalValue: stock.totalValue,
     });
 
-    // Add that stock to our front end state
+    // Add that stock to our database & front end state
     dispatch(addStock(stock));
-    dispatch(addTransactionThunk(stock, 'BUY'));
+
+    // Add the transaction to our database & front end state
+    dispatch(addTransactionThunk(stock, 'BUY', qty));
+
+    // Update the users cash balance in the database & front end state
+    dispatch(purchaseThunk(stock.totalValue));
   } catch (error) {
     dispatch(stockError('Error purchasing stock. Check your ticker.'));
     console.error(error);

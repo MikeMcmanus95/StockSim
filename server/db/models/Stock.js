@@ -13,6 +13,9 @@ const Stock = db.define('stock', {
   change: {
     type: Sequelize.STRING,
   },
+  changePercent: {
+    type: Sequelize.STRING,
+  },
 });
 
 module.exports = Stock;

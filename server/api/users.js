@@ -22,8 +22,15 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', (req, res, next) => {
-  res.send('Update user by id here');
+router.put('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    user.cashBal -= req.body.cashBal;
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete('/:id', (req, res, next) => {

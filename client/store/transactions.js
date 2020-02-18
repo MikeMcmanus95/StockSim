@@ -24,7 +24,7 @@ const getHistory = transactions => ({
 /**
  * THUNK CREATORS
  */
-export const addTransactionThunk = (transaction, type) => async (
+export const addTransactionThunk = (transaction, type, quantity) => async (
   dispatch,
   getState
 ) => {
@@ -33,6 +33,7 @@ export const addTransactionThunk = (transaction, type) => async (
     transaction.userId = userId;
     transaction.date = new Date();
     transaction.type = type;
+    transaction.quantity = quantity;
     await axios.post('/api/transactions', transaction);
     dispatch(addTransaction(transaction));
   } catch (error) {

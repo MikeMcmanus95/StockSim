@@ -21,6 +21,14 @@ body {
   height: 100vh;
 }
 
+.positive {
+  color: greenyellow;
+}
+
+.negative {
+  color: red;
+}
+
 .portfolio {
   display: flex;
   flex-direction: row;

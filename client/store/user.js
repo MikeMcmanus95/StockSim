@@ -6,6 +6,7 @@ import history from '../history';
  */
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
+const PURCHASE = 'PURCHASE';
 
 /**
  * INITIAL STATE
@@ -17,6 +18,7 @@ const defaultUser = {};
  */
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
+const purchase = amount => ({ type: PURCHASE, amount });
 
 /**
  * THUNK CREATORS
@@ -55,6 +57,16 @@ export const logout = () => async dispatch => {
   }
 };
 
+export const purchaseThunk = amount => async (dispatch, getState) => {
+  try {
+    const userId = getState().user.id;
+    await axios.put(`/api/users/${userId}`, { cashBal: amount });
+    dispatch(purchase(amount));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 /**
  * REDUCER
  */
@@ -64,6 +76,8 @@ export default function(state = defaultUser, action) {
       return action.user;
     case REMOVE_USER:
       return defaultUser;
+    case PURCHASE:
+      return { ...state, cashBal: state.cashBal - action.amount };
     default:
       return state;
   }

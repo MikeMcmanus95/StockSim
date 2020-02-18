@@ -1,16 +1,6 @@
 import React from 'react';
 
 export const TransactionsTable = ({ transactions }) => {
-  // const date = new Date();
-  // const dumbTransactions = [
-  //   {
-  //     id: 1,
-  //     symbol: 'AAPL',
-  //     quantity: 4,
-  //     totalValue: 1000,
-  //     date: date.toDateString(),
-  //   },
-  // ];
   const transactionsArr = transactions.transactionsArr;
   return (
     <div>
@@ -18,12 +8,12 @@ export const TransactionsTable = ({ transactions }) => {
       <table className="stocks-table">
         <tbody>
           {transactionsArr.map((stock, idx) => (
-            <tr key={stock.id || idx}>
+            <tr key={idx}>
               <td>
-                {stock.symbol} - {stock.quantity} Shares
+                {stock.type} ({stock.symbol}) - {stock.quantity} Shares
               </td>
               <td>${stock.totalValue}</td>
-              <td>{String(stock.date)}</td>
+              <td>{new Date(stock.date).toDateString()}</td>
             </tr>
           ))}
         </tbody>
