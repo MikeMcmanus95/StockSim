@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_KEY } from '../../secrets';
+import { addTransactionThunk } from './transactions';
 
 /**
  * ACTION TYPES
@@ -53,6 +54,7 @@ export const addStockThunk = (name, qty) => async dispatch => {
 
     // Add that stock to our front end state
     dispatch(addStock(stock));
+    dispatch(addTransactionThunk(stock, 'BUY'));
   } catch (error) {
     dispatch(stockError('Error purchasing stock. Check your ticker.'));
     console.error(error);

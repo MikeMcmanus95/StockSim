@@ -4,10 +4,12 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer from './user';
 import stocksReducer from './stocks';
+import transactionReducer from './transactions';
 
 const reducer = combineReducers({
   user: userReducer,
   portfolio: stocksReducer,
+  transaction: transactionReducer,
 });
 
 const middleware = composeWithDevTools(

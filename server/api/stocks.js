@@ -64,7 +64,7 @@ router.get('/:id', async (req, res, next) => {
         },
       ],
     });
-    console.log(portfolio);
+
     // Structuring the data to match our front end
     stocksArr = portfolio[0].stocks.map(stock => {
       stock.dataValues.quantity = stock.portfolioStock.quantity;
@@ -74,11 +74,12 @@ router.get('/:id', async (req, res, next) => {
         stock.dataValues.price * stock.portfolioStock.quantity;
       return stock;
     });
-    const stocks = {
+
+    const newPortfolio = {
       stocksArr: stocksArr,
       totalValue: portfolio[0].totalValue,
     };
-    res.json(stocks);
+    res.json(newPortfolio);
   } catch (error) {
     next(error);
   }
