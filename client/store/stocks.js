@@ -40,7 +40,8 @@ export const addStockThunk = (name, qty) => async (dispatch, getState) => {
     const { data } = await axios.get(queryString);
     const quoteData = data[name].quote;
     const { user } = getState();
-    qty = Math.floor(Number(qty));
+    qty = Math.floor(qty);
+    if (qty !== Math.abs(qty) || qty <= 0) throw new Error('Invalid quantity.');
 
     const stock = {
       symbol: quoteData.symbol,
@@ -77,7 +78,9 @@ export const addStockThunk = (name, qty) => async (dispatch, getState) => {
       dispatch(stockError('Error purchasing stock. Not enough cash.'));
     }
   } catch (error) {
-    dispatch(stockError('Error purchasing stock. Check your ticker.'));
+    dispatch(
+      stockError('Error purchasing stock. Check your ticker or quantity.')
+    );
     console.error(error);
   }
 };
