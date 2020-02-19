@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useInput } from '../hooks/useInput';
+import useInput from '../hooks/useInput';
 import { addStockThunk } from '../store/stocks';
 
 const Purchase = ({ user, addStock, errorMsg }) => {

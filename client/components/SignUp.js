@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useInput } from '../hooks/useInput';
+import useInput from '../hooks/useInput';
 import { connect } from 'react-redux';
 import { auth } from '../store/user';
 
