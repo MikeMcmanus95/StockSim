@@ -5,7 +5,10 @@
   "main": "server/server.js",
   "scripts": {
     "start-dev": "webpack -w & nodemon --watch server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-client": "webpack -p",
+    "deploy": "script/deploy"
   },
   "author": "Michael Mcmanus",
   "license": "ISC",
