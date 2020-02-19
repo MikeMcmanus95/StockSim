@@ -16,7 +16,7 @@ const Purchase = ({ user, addStock, errorMsg }) => {
 
   return (
     <div>
-      <h1>Cash - ${user.cashBal}</h1>
+      <h1>Cash: ${user.cashBal / 100}</h1>
       <div className="buy-form">
         <form className="login-form" onSubmit={handleClick}>
           <input type="text" placeholder="ticker" {...bindTicker} />

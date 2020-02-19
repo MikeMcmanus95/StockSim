@@ -29,8 +29,8 @@ export const addTransactionThunk = (transaction, type, quantity) => async (
   getState
 ) => {
   try {
-    const userId = getState().user.id;
-    transaction.userId = userId;
+    const { user } = getState();
+    transaction.userId = user.id;
     transaction.date = new Date();
     transaction.type = type;
     transaction.quantity = quantity;
@@ -43,8 +43,8 @@ export const addTransactionThunk = (transaction, type, quantity) => async (
 
 export const getHistoryThunk = () => async (dispatch, getState) => {
   try {
-    const userId = getState().user.id;
-    const { data } = await axios.get(`/api/transactions/${userId}`);
+    const { user } = getState();
+    const { data } = await axios.get(`/api/transactions/${user.id}`);
     dispatch(getHistory(data));
   } catch (error) {
     console.error(error);

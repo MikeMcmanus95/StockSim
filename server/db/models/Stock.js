@@ -8,7 +8,11 @@ const Stock = db.define('stock', {
     allowNull: false,
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
+    defaultValue: 1,
+    validate: {
+      min: 0,
+    },
   },
   change: {
     type: Sequelize.STRING,

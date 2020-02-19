@@ -60,8 +60,8 @@ export const logout = () => async dispatch => {
 
 export const purchaseThunk = amount => async (dispatch, getState) => {
   try {
-    const userId = getState().user.id;
-    await axios.put(`/api/users/${userId}`, { cashBal: amount });
+    const { user } = getState();
+    await axios.put(`/api/users/${user.id}`, { cashBal: amount });
     dispatch(purchase(amount));
   } catch (error) {
     dispatch(userError(error.response.data));

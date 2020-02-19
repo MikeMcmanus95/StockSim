@@ -8,7 +8,7 @@ const Portfolio = ({ user, portfolio, getPortfolio, updatePortfolio }) => {
   useEffect(() => {
     getPortfolio(user.id);
     const interval = setInterval(() => {
-      updatePortfolio(portfolio);
+      updatePortfolio();
     }, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -30,8 +30,8 @@ const mapDispatchToProps = dispatch => ({
   getPortfolio(userId) {
     dispatch(getPortfolioThunk(userId));
   },
-  updatePortfolio(portfolio) {
-    dispatch(updatePortfolioThunk(portfolio));
+  updatePortfolio() {
+    dispatch(updatePortfolioThunk());
   },
 });
 

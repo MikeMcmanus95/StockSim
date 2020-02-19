@@ -10,7 +10,7 @@ const PortfolioStock = db.define('portfolioStock', {
     defaultValue: 1,
   },
   totalValue: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     validate: {
       min: 0,
     },

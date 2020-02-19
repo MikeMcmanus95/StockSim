@@ -39,17 +39,17 @@ export const addStockThunk = (name, qty) => async (dispatch, getState) => {
     const queryString = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${name}&types=quote&range=1m&last=5&&token=${API_KEY}`;
     const { data } = await axios.get(queryString);
     const quoteData = data[name].quote;
-    const user = getState().user;
+    const { user } = getState();
     qty = Math.floor(Number(qty));
 
     const stock = {
       symbol: quoteData.symbol,
-      latestPrice: quoteData.latestPrice,
+      latestPrice: Math.floor(quoteData.latestPrice * 100),
       change: quoteData.change,
       changePercent: String(quoteData.changePercent),
       open: quoteData.open,
       quantity: qty,
-      totalValue: quoteData.latestPrice * qty,
+      totalValue: quoteData.latestPrice * qty * 100,
     };
 
     // Add or update a record of that stock in our database
@@ -92,8 +92,9 @@ export const getPortfolioThunk = userId => async dispatch => {
   }
 };
 
-export const updatePortfolioThunk = portfolio => async dispatch => {
+export const updatePortfolioThunk = () => async (dispatch, getState) => {
   try {
+    const { portfolio } = getState();
     const stockNames = portfolio.stocksArr.map(stock => stock.symbol);
     const queryString = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockNames.join()}&types=quote&range=1m&last=5&&token=${API_KEY}`;
     const { data } = await axios.get(queryString);
@@ -101,10 +102,10 @@ export const updatePortfolioThunk = portfolio => async dispatch => {
 
     const newPortfolio = portfolio.stocksArr.map(stock => {
       const newStock = data[stock.symbol].quote;
-      stock.price = newStock.latestPrice;
+      stock.price = newStock.latestPrice * 100;
       stock.change = String(newStock.change);
       stock.changePercent = String(newStock.changePercent);
-      stock.totalValue = newStock.latestPrice * stock.quantity;
+      stock.totalValue = newStock.latestPrice * stock.quantity * 100;
       newTotalValue += stock.totalValue;
       return stock;
     });

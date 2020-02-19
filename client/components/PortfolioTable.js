@@ -3,7 +3,7 @@ import React from 'react';
 export const PortfolioTable = ({ portfolio }) => {
   return (
     <div>
-      <h1>Portfolio (${portfolio.totalValue})</h1>
+      <h1>Portfolio: ${portfolio.totalValue / 100}</h1>
       <table className="stocks-table">
         <tbody>
           {portfolio.stocksArr.map(stock => (
@@ -17,7 +17,7 @@ export const PortfolioTable = ({ portfolio }) => {
                 )}
               </td>
               <td>{stock.quantity} Shares</td>
-              <td>${stock.totalValue}</td>
+              <td>${stock.totalValue / 100}</td>
             </tr>
           ))}
         </tbody>

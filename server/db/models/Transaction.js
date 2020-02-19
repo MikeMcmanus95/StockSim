@@ -7,7 +7,7 @@ const Transaction = db.define('transaction', {
     allowNull: false,
   },
   totalValue: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
   quantity: {
