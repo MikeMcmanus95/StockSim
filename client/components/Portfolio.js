@@ -1,16 +1,22 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getPortfolioThunk } from '../store/stocks';
+import { getPortfolioThunk, updatePortfolioThunk } from '../store/stocks';
 import { PortfolioTable } from './PortfolioTable';
 import Purchase from './Purchase';
 
-const Portfolio = ({ user, portfolio, getPortfolio }) => {
-  useEffect(() => getPortfolio(user.id), []);
+const Portfolio = ({ user, portfolio, getPortfolio, updatePortfolio }) => {
+  useEffect(() => {
+    getPortfolio(user.id);
+    const interval = setInterval(() => {
+      updatePortfolio(portfolio);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="portfolio">
       <PortfolioTable user={user} portfolio={portfolio} />
-      <Purchase user={user} errorMsg={portfolio.errorMsg} />
+      <Purchase user={user} errorMsg={portfolio.errorMsg || user.errorMsg} />
     </div>
   );
 };
@@ -23,6 +29,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getPortfolio(userId) {
     dispatch(getPortfolioThunk(userId));
+  },
+  updatePortfolio(portfolio) {
+    dispatch(updatePortfolioThunk(portfolio));
   },
 });
 

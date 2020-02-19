@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history';
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 /**
  * ACTION TYPES
@@ -7,6 +8,7 @@ import history from '../history';
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const PURCHASE = 'PURCHASE';
+const USER_ERROR = 'USER_ERROR';
 
 /**
  * INITIAL STATE
@@ -19,6 +21,7 @@ const defaultUser = {};
 const getUser = user => ({ type: GET_USER, user });
 const removeUser = () => ({ type: REMOVE_USER });
 const purchase = amount => ({ type: PURCHASE, amount });
+const userError = message => ({ type: USER_ERROR, message });
 
 /**
  * THUNK CREATORS
@@ -28,6 +31,7 @@ export const me = () => async dispatch => {
     const res = await axios.get('/auth/me');
     dispatch(getUser(res.data || defaultUser));
   } catch (error) {
+    dispatch(userError(error.response.data));
     console.error(error);
   }
 };
@@ -36,14 +40,11 @@ export const auth = (method, email, password, name) => async dispatch => {
   let res;
   try {
     res = await axios.post(`/auth/${method}`, { email, name, password });
-  } catch (error) {
-    console.error('Failed to post, ', error);
-  }
-  try {
     dispatch(getUser(res.data));
     history.push('/');
   } catch (error) {
-    console.error('Failed to dispatch/history, ', error);
+    dispatch(userError(error.response.data));
+    console.error(error);
   }
 };
 
@@ -63,6 +64,7 @@ export const purchaseThunk = amount => async (dispatch, getState) => {
     await axios.put(`/api/users/${userId}`, { cashBal: amount });
     dispatch(purchase(amount));
   } catch (error) {
+    dispatch(userError(error.response.data));
     console.error(error);
   }
 };
@@ -78,6 +80,8 @@ export default function(state = defaultUser, action) {
       return defaultUser;
     case PURCHASE:
       return { ...state, cashBal: state.cashBal - action.amount };
+    case USER_ERROR:
+      return { ...state, errorMsg: action.message };
     default:
       return state;
   }

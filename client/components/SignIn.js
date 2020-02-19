@@ -4,14 +4,14 @@ import { useInput } from '../hooks/useInput';
 import { auth } from '../store/user';
 import { connect } from 'react-redux';
 
-const SignIn = props => {
+const SignIn = ({ login, errorMsg }) => {
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput('');
   const { value: pass, bind: bindPass, reset: resetPass } = useInput('');
   const method = 'login';
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    props.login(method, email, pass);
+    login(method, email, pass);
     resetEmail();
     resetPass();
   };
@@ -33,10 +33,15 @@ const SignIn = props => {
             Not registered? <Link to="/signup">Create an account</Link>
           </p>
         </form>
+        {errorMsg ? <p className="message">{errorMsg}</p> : null}
       </div>
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  errorMsg: state.user.errorMsg,
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -44,4 +49,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

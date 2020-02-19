@@ -4,7 +4,7 @@ import { useInput } from '../hooks/useInput';
 import { connect } from 'react-redux';
 import { auth } from '../store/user';
 
-const SignUp = props => {
+const SignUp = ({ signup, errorMsg }) => {
   const { value: name, bind: bindName, reset: resetName } = useInput('');
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput('');
   const { value: pass, bind: bindPass, reset: resetPass } = useInput('');
@@ -17,7 +17,7 @@ const SignUp = props => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    props.signup(method, email, pass, name);
+    signup(method, email, pass, name);
     resetEmail();
     resetName();
     resetPass();
@@ -44,10 +44,15 @@ const SignUp = props => {
             create
           </button>
         </form>
+        {errorMsg ? <p className="message">{errorMsg}</p> : null}
       </div>
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  errorMsg: state.user.errorMsg,
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -56,4 +61,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
