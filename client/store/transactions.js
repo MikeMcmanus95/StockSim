@@ -29,11 +29,20 @@ export const addTransactionThunk = (transaction, type, quantity) => async (
   getState
 ) => {
   try {
-    const { user } = getState();
+    // Get portfolio and make a deep copy of the most recently bought stock
+    const { user, portfolio } = getState();
+    const lastIdx = portfolio.stocksArr.length - 1;
+    const transaction = { ...portfolio.stocksArr[lastIdx] };
+
+    // Modify the data such that it matches what we want in the transactions table
     transaction.userId = user.id;
     transaction.date = new Date();
     transaction.type = type;
     transaction.quantity = quantity;
+    transaction.price = transaction.latestPrice;
+    transaction.totalValue = transaction.price * quantity;
+
+    // Send this new transaction to our database and dispatch to front end state
     await axios.post('/api/transactions', transaction);
     dispatch(addTransaction(transaction));
   } catch (error) {

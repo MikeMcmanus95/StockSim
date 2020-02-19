@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const { Stock, Portfolio, PortfolioStock } = require('../db/models');
 
 // GET ALL STOCKS
@@ -48,6 +50,34 @@ router.post('/', async (req, res, next) => {
     await portfolio.save();
 
     res.json(stock);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// UPDATE STOCK PRICE
+router.put('/', async (req, res, next) => {
+  try {
+    const { priceData, newTotal } = req.body;
+
+    const portfolioToUpdate = await Portfolio.findOne({
+      where: {
+        userId: req.user.id,
+      },
+      include: [{ model: Stock }],
+    });
+
+    await portfolioToUpdate.update({ totalValue: newTotal });
+
+    const updatedStocks = await Promise.all(
+      portfolioToUpdate.stocks.map(stock => {
+        return stock.update({
+          price: priceData[0].price,
+          changePercent: priceData[0].change,
+        });
+      })
+    );
+    res.json(updatedStocks);
   } catch (error) {
     next(error);
   }

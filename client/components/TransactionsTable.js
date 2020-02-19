@@ -12,7 +12,7 @@ export const TransactionsTable = ({ transactions }) => {
               <td>
                 {stock.type} ({stock.symbol}) - {stock.quantity} Shares
               </td>
-              <td>${stock.totalValue}</td>
+              <td>${stock.totalValue / 100}</td>
               <td>{new Date(stock.date).toDateString()}</td>
             </tr>
           ))}

@@ -105,12 +105,23 @@ export const updatePortfolioThunk = () => async (dispatch, getState) => {
 
     const newPortfolio = portfolio.stocksArr.map(stock => {
       const newStock = data[stock.symbol].quote;
-      stock.price = newStock.latestPrice * 100;
+      stock.price = Math.floor(newStock.latestPrice * 100);
       stock.change = String(newStock.change);
       stock.changePercent = String(newStock.changePercent);
-      stock.totalValue = newStock.latestPrice * stock.quantity * 100;
+      stock.totalValue = Math.floor(
+        newStock.latestPrice * stock.quantity * 100
+      );
       newTotalValue += stock.totalValue;
       return stock;
+    });
+
+    const priceData = newPortfolio.map(stock => ({
+      price: stock.price,
+      change: stock.changePercent,
+    }));
+    await axios.put('/api/stocks', {
+      priceData,
+      newTotal: newTotalValue,
     });
 
     dispatch(updatePortfolio(newPortfolio, newTotalValue));
