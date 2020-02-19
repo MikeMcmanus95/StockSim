@@ -9,14 +9,15 @@ export const PortfolioTable = ({ portfolio }) => {
           {portfolio.stocksArr.map(stock => (
             <tr key={stock.symbol}>
               <td>
-                {stock.symbol} - {stock.quantity} Shares
+                {stock.symbol}
+                {stock.changePercent[0] === '-' ? (
+                  <div className="negative">{stock.changePercent}%</div>
+                ) : (
+                  <div className="positive">{stock.changePercent}%</div>
+                )}
               </td>
+              <td>{stock.quantity} Shares</td>
               <td>${stock.totalValue}</td>
-              {stock.changePercent[0] === '-' ? (
-                <td className="negative">{stock.changePercent}%</td>
-              ) : (
-                <td className="positive">{stock.changePercent}%</td>
-              )}
             </tr>
           ))}
         </tbody>

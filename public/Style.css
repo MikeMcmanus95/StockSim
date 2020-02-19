@@ -38,7 +38,7 @@ body {
 }
 
 .stocks-table {
-  width: 45vh;
+  width: fit-content;
   background-color: #333;
   color: white;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
