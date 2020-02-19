@@ -14,6 +14,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.landing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 45%;
+  width: 100%;
+}
+
 .form-wrapper {
   display: flex;
   justify-content: center;
