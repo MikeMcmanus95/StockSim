@@ -5,7 +5,7 @@ export const TransactionsTable = ({ transactions }) => {
   return (
     <div>
       <h1>Transaction History</h1>
-      <table className="stocks-table">
+      <table className="stocks-table table-wide">
         <tbody>
           {transactionsArr.map((stock, idx) => (
             <tr key={idx}>
