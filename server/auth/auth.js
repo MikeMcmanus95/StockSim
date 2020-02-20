@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const API_KEY = require('../../secrets');
+const API_KEY = process.env.API_KEY || require('../../secrets');
 const { User, Portfolio } = require('../db/models');
 
 router.get('/', async (req, res, next) => {
