@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { API_KEY } from '../../secrets';
 import { addTransactionThunk } from './transactions';
 import { purchaseThunk } from './user';
 
@@ -36,7 +35,8 @@ const stockError = message => ({
  */
 export const addStockThunk = (name, qty) => async (dispatch, getState) => {
   try {
-    const queryString = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${name}&types=quote&range=1m&last=5&&token=${API_KEY}`;
+    const res = await axios.get('/auth/key');
+    const queryString = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${name}&types=quote&range=1m&last=5&&token=${res.data}`;
     const { data } = await axios.get(queryString);
     const quoteData = data[name].quote;
     const { user } = getState();
@@ -97,9 +97,12 @@ export const getPortfolioThunk = userId => async dispatch => {
 
 export const updatePortfolioThunk = () => async (dispatch, getState) => {
   try {
+    const res = await axios.get('/auth/key');
     const { portfolio } = getState();
     const stockNames = portfolio.stocksArr.map(stock => stock.symbol);
-    const queryString = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockNames.join()}&types=quote&range=1m&last=5&&token=${API_KEY}`;
+    const queryString = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${stockNames.join()}&types=quote&range=1m&last=5&&token=${
+      res.data
+    }`;
     const { data } = await axios.get(queryString);
     let newTotalValue = 0;
 

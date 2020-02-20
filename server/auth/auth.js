@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const API_KEY = require('../../secrets');
 const { User, Portfolio } = require('../db/models');
 
 router.get('/', async (req, res, next) => {
@@ -8,6 +9,11 @@ router.get('/', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+router.get('/key', async (req, res, next) => {
+  if (!req.user) res.sendStatus(401).end();
+  else res.send(API_KEY);
 });
 
 router.post('/login', async (req, res, next) => {
