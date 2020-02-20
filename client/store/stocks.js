@@ -36,7 +36,9 @@ const stockError = message => ({
 export const addStockThunk = (name, qty) => async (dispatch, getState) => {
   try {
     const res = await axios.get('/auth/key');
+    name = name.toUpperCase();
     const queryString = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${name}&types=quote&range=1m&last=5&&token=${res.data}`;
+
     const { data } = await axios.get(queryString);
     const quoteData = data[name].quote;
     const { user } = getState();
