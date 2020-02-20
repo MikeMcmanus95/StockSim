@@ -6,7 +6,7 @@ import Purchase from './Purchase';
 
 const Portfolio = ({ user, portfolio, getPortfolio, updatePortfolio }) => {
   useEffect(() => {
-    getPortfolio(user.id);
+    getPortfolio();
     const interval = setInterval(() => {
       updatePortfolio();
     }, 10000);
@@ -27,8 +27,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getPortfolio(userId) {
-    dispatch(getPortfolioThunk(userId));
+  getPortfolio() {
+    dispatch(getPortfolioThunk());
   },
   updatePortfolio() {
     dispatch(updatePortfolioThunk());

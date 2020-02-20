@@ -86,7 +86,7 @@ router.put('/', async (req, res, next) => {
 // GET STOCKS FOR USER
 router.get('/:id', async (req, res, next) => {
   try {
-    let portfolio = await Portfolio.findAll({
+    let portfolio = await Portfolio.findOne({
       where: { userId: req.params.id },
       include: [
         {
@@ -95,19 +95,24 @@ router.get('/:id', async (req, res, next) => {
       ],
     });
 
+    const stocksArr = [];
     // Structuring the data to match our front end
-    stocksArr = portfolio[0].stocks.map(stock => {
-      stock.dataValues.quantity = stock.portfolioStock.quantity;
-      stock.dataValues.id = stock.portfolioStock.stockId;
-      stock.dataValues.portfolioId = stock.portfolioStock.portfolioId;
-      stock.dataValues.totalValue =
-        stock.dataValues.price * stock.portfolioStock.quantity;
-      return stock;
+    portfolio.stocks.forEach(stock => {
+      let newStock = {};
+      newStock.id = stock.portfolioStock.stockId;
+      newStock.symbol = stock.dataValues.symbol;
+      newStock.price = stock.dataValues.price;
+      newStock.change = stock.dataValues.change;
+      newStock.changePercent = stock.dataValues.changePercent;
+      newStock.quantity = stock.portfolioStock.quantity;
+      newStock.totalValue = stock.price * stock.portfolioStock.quantity;
+      newStock.portfolioId = stock.portfolioStock.portfolioId;
+      stocksArr.push(newStock);
     });
 
     const newPortfolio = {
       stocksArr: stocksArr,
-      totalValue: portfolio[0].totalValue,
+      totalValue: portfolio.totalValue,
     };
     res.json(newPortfolio);
   } catch (error) {

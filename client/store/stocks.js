@@ -87,9 +87,10 @@ export const addStockThunk = (name, qty) => async (dispatch, getState) => {
   }
 };
 
-export const getPortfolioThunk = userId => async dispatch => {
+export const getPortfolioThunk = () => async (dispatch, getState) => {
   try {
-    const { data } = await axios.get(`/api/stocks/${userId}`);
+    const { user } = getState();
+    const { data } = await axios.get(`/api/stocks/${user.id}`);
     dispatch(getPortfolio(data));
   } catch (error) {
     dispatch(stockError('Error retriving stocks.'));
