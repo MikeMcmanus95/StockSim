@@ -10,11 +10,11 @@ export const PortfolioTable = ({ portfolio }) => {
             <tr key={stock.symbol}>
               <td>
                 {stock.symbol}
-                {stock.changePercent[0] === '-' ? (
+                {/* {stock.changePercent[0] === '-' ? (
                   <div className="negative">{stock.changePercent}%</div>
                 ) : (
                   <div className="positive">{stock.changePercent}%</div>
-                )}
+                )} */}
               </td>
               <td>{stock.quantity} Shares</td>
               <td>${stock.totalValue / 100}</td>

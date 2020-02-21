@@ -8,9 +8,9 @@ const Portfolio = ({ user, portfolio, getPortfolio, updatePortfolio }) => {
   useEffect(() => {
     getPortfolio();
     const interval = setInterval(() => {
-      updatePortfolio();
-    }, 10000);
-    return () => clearInterval(interval);
+          getPortfolio();
+        }, 10000);
+        return () => clearInterval(interval);
   }, []);
 
   return (

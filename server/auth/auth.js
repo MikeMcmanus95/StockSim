@@ -41,8 +41,6 @@ router.post('/login', async (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
-    const portfolio = await Portfolio.create({ totalValue: 0 });
-    await portfolio.setUser(newUser.id);
     req.login(newUser, err => {
       if (err) next(err);
       else res.json(newUser);

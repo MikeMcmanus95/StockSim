@@ -7,19 +7,6 @@ const Stock = db.define('stock', {
     unique: true,
     allowNull: false,
   },
-  price: {
-    type: Sequelize.INTEGER,
-    defaultValue: 1,
-    validate: {
-      min: 0,
-    },
-  },
-  change: {
-    type: Sequelize.STRING,
-  },
-  changePercent: {
-    type: Sequelize.STRING,
-  },
 });
 
 module.exports = Stock;
