@@ -6,5 +6,13 @@
     "type": "BUY",
     "date": "2020-02-19 17:51:16.136-05",
     "userId": 1
+  },
+  {
+    "symbol": "AAPL",
+    "totalValue": 33749,
+    "quantity": 1,
+    "type": "BUY",
+    "date": "2020-02-19 18:51:16.136-05",
+    "userId": 1
   }
 ]
