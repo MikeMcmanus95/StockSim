@@ -49,12 +49,12 @@ export const addStockThunk = (name, qty) => async (dispatch, getState) => {
       totalValue: quoteData.latestPrice * qty * 100,
     };
 
-    // Add or update a record of that stock in our database
-    await axios.post('/api/stocks', stock);
-
     let difference = user.cashBal - stock.totalValue;
     // If difference is not negative:
     if (difference > 0) {
+      // Add or update a record of that stock in our database
+      await axios.post('/api/stocks', stock);
+
       // Add that stock to our database & front end state
       dispatch(addStock(stock));
 
